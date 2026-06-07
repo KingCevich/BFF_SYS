@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import entidades_list, entidades_detail
 
 urlpatterns = [
     #Endpoints de AUTH_SERV para login y refresh de tokens
@@ -22,4 +23,6 @@ urlpatterns = [
 
     path('contactos/', views.contactos_list, name='contactos_list'),
     path('contactos/<int:pk>/', views.contactos_detail, name='contactos_detail'),
+    path('entidades/', entidades_list, name='entidades_list'),
+    path('entidades/<int:pk>/', entidades_detail, name='entidades_detail'),
 ]

@@ -171,3 +171,16 @@ def preferencias_detail(request, pk):
         return JsonResponse({'detail': 'Method not allowed'}, status=405)
 
     return _proxy_request(request.method, f'{PREFERENCIAS_SERVICE_URL}{pk}/', request)
+
+@csrf_exempt
+def entidades_list(request):
+    if request.method not in ['GET', 'POST']:
+        return JsonResponse({'detail': 'Method not allowed'}, status=405)
+    return _proxy_request(request.method, 'http://127.0.0.1:8000/api/entidades/', request)
+
+
+@csrf_exempt
+def entidades_detail(request, pk):
+    if request.method not in ['GET', 'PUT', 'DELETE']:
+        return JsonResponse({'detail': 'Method not allowed'}, status=405)
+    return _proxy_request(request.method, f'http://127.0.0.1:8000/api/entidades/{pk}/', request)
