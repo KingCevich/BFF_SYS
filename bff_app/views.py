@@ -17,6 +17,8 @@ PREFERENCIAS_SERVICE_URL = "http://127.0.0.1:8000/api/preferencias/"
 REPORTES_SERVICE_URL = "http://127.0.0.1:8002/api/reportes/"
 CONTACTOS_SERVICE_URL = "http://127.0.0.1:8002/api/contactos/"
 
+NOTICIAS_SERVICE_URL = "http://127.0.0.1:8004/api/noticias/"
+
 
 def _build_headers(request):
     # Construye los encabezados que se pasarán al microservicio destino.
@@ -184,3 +186,15 @@ def entidades_detail(request, pk):
     if request.method not in ['GET', 'PUT', 'DELETE']:
         return JsonResponse({'detail': 'Method not allowed'}, status=405)
     return _proxy_request(request.method, f'http://127.0.0.1:8000/api/entidades/{pk}/', request)
+
+@csrf_exempt
+def noticias_list(request):
+    if request.method not in ['GET', 'POST']:
+        return JsonResponse({'detail': 'Method not allowed'}, status=405)
+    return _proxy_request(request.method, NOTICIAS_SERVICE_URL, request)
+
+@csrf_exempt
+def noticias_detail(request, pk):
+    if request.method not in ['GET', 'PUT', 'DELETE']:
+        return JsonResponse({'detail': 'Method not allowed'}, status=405)
+    return _proxy_request(request.method, f'{NOTICIAS_SERVICE_URL}{pk}/', request)
