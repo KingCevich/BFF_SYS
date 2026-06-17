@@ -25,7 +25,17 @@ urlpatterns = [
     path('contactos/<int:pk>/', views.contactos_detail, name='contactos_detail'),
     path('entidades/', entidades_list, name='entidades_list'),
     path('entidades/<int:pk>/', entidades_detail, name='entidades_detail'),
-    
+
+    #Endpoints de Noticias_serv para noticias
     path('noticias/', views.noticias_list, name='noticias_list'),
     path('noticias/<int:pk>/', views.noticias_detail, name='noticias_detail'),
+
+    #Endpoints de Notificaciones_serv para notificaciones
+    path('notificaciones/usuario/',                          views.notificaciones_usuario,            name='notificaciones_usuario'),
+    path('notificaciones/no-leidas/',                        views.notificaciones_no_leidas,          name='notificaciones_no_leidas'),
+    path('notificaciones/<int:pk>/marcar-leida/',            views.notificaciones_marcar_leida,       name='notificaciones_marcar_leida'),
+    path('notificaciones/marcar-todas-leidas/',              views.notificaciones_marcar_todas_leidas, name='notificaciones_marcar_todas_leidas'),
+
+    #Enpoint imgbb para subir fotos (usado por el frontend al crear reportes)
+    path('upload/', views.upload_foto),
 ]
