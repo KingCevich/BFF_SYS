@@ -67,15 +67,7 @@ def _proxy_request(method, url, request):
             timeout=10
         )
 
-    response = requests.request(
-        method,
-        url,
-        headers=headers,
-        json=data if isinstance(data, dict) else None,
-        data=None if isinstance(data, dict) else data,
-        params=request.GET.dict() if request.GET else None,
-        timeout=10,
-    )
+
 
     return HttpResponse(
         response.content,
