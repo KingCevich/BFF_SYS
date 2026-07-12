@@ -16,7 +16,7 @@ PREFERENCIAS_SERVICE_URL = os.environ.get('PREFERENCIAS_SERVICE_URL', 'http://12
 #URL Microservicio de Mascotas (mascotas_serv)
 REPORTES_SERVICE_URL = os.environ.get('REPORTES_SERVICE_URL', 'http://127.0.0.1:8002/api/reportes/')
 CONTACTOS_SERVICE_URL = os.environ.get('CONTACTOS_SERVICE_URL', 'http://127.0.0.1:8002/api/contactos/')
-
+ENTIDADES_SERVICE_URL = os.environ.get('ENTIDADES_SERVICE_URL', 'http://127.0.0.1:8000/api/entidades/')
 #URL Microservicio de Noticias (noticias_serv)
 NOTICIAS_SERVICE_URL = os.environ.get('NOTICIAS_SERVICE_URL', 'http://127.0.0.1:8004/api/noticias/')
 
@@ -196,14 +196,14 @@ def preferencias_detail(request, pk):
 def entidades_list(request):
     if request.method not in ['GET', 'POST']:
         return JsonResponse({'detail': 'Method not allowed'}, status=405)
-    return _proxy_request(request.method, 'http://127.0.0.1:8000/api/entidades/', request)
+    return _proxy_request(request.method, ENTIDADES_SERVICE_URL, request)
 
 
 @csrf_exempt
 def entidades_detail(request, pk):
     if request.method not in ['GET', 'PUT', 'DELETE']:
         return JsonResponse({'detail': 'Method not allowed'}, status=405)
-    return _proxy_request(request.method, f'http://127.0.0.1:8000/api/entidades/{pk}/', request)
+    return _proxy_request(request.method, f'{ENTIDADES_SERVICE_URL}{pk}/', request)
 
 @csrf_exempt
 def noticias_list(request):
