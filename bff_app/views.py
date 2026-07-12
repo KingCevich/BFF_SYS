@@ -1,4 +1,5 @@
 import json
+import os
 import requests
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -6,22 +7,21 @@ from django.views.decorators.csrf import csrf_exempt
 # URL base de los microservicios que el BFF va a enrutar
 
 #URL Microservicio de Autenticación (auth_serv)
-AUTH_SERVICE_URL = "http://127.0.0.1:8001/api/auth/"
+AUTH_SERVICE_URL = os.environ.get('AUTH_SERVICE_URL', 'http://127.0.0.1:8001/api/auth/')
 
 #URL Microservicio de Usuarios (usuarios_serv)
-USERS_SERVICE_URL = "http://127.0.0.1:8000/api/usuarios/"
-PERFILES_SERVICE_URL = "http://127.0.0.1:8000/api/perfiles/"
-PREFERENCIAS_SERVICE_URL = "http://127.0.0.1:8000/api/preferencias/"
-
+USERS_SERVICE_URL = os.environ.get('USERS_SERVICE_URL', 'http://127.0.0.1:8000/api/usuarios/')
+PERFILES_SERVICE_URL = os.environ.get('PERFILES_SERVICE_URL', 'http://127.0.0.1:8000/api/perfiles/')
+PREFERENCIAS_SERVICE_URL = os.environ.get('PREFERENCIAS_SERVICE_URL', 'http://127.0.0.1:8000/api/preferencias/')
 #URL Microservicio de Mascotas (mascotas_serv)
-REPORTES_SERVICE_URL = "http://127.0.0.1:8002/api/reportes/"
-CONTACTOS_SERVICE_URL = "http://127.0.0.1:8002/api/contactos/"
+REPORTES_SERVICE_URL = os.environ.get('REPORTES_SERVICE_URL', 'http://127.0.0.1:8002/api/reportes/')
+CONTACTOS_SERVICE_URL = os.environ.get('CONTACTOS_SERVICE_URL', 'http://127.0.0.1:8002/api/contactos/')
 
 #URL Microservicio de Noticias (noticias_serv)
-NOTICIAS_SERVICE_URL = "http://127.0.0.1:8004/api/noticias/"
+NOTICIAS_SERVICE_URL = os.environ.get('NOTICIAS_SERVICE_URL', 'http://127.0.0.1:8004/api/noticias/')
 
 #URL Microservicio de Notificaciones (notificaciones_serv)
-NOTIFICACIONES_SERVICE_URL = "http://127.0.0.1:8005/api/notificaciones/"
+NOTIFICACIONES_SERVICE_URL = os.environ.get('NOTIFICACIONES_SERVICE_URL', 'http://127.0.0.1:8005/api/notificaciones/')
 
 def _build_headers(request):
     # Construye los encabezados que se pasarán al microservicio destino.
