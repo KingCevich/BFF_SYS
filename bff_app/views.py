@@ -3,6 +3,9 @@ import os
 import requests
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+import boto3
+from botocore.exceptions import ClientError
+import uuid
 
 # URL base de los microservicios que el BFF va a enrutar
 
@@ -273,18 +276,26 @@ def upload_foto(request):
         return JsonResponse({'error': 'No image provided'}, status=400)
     
     file = request.FILES['image']
-    IMGBB_API_KEY = 'a8b8d63944d3b3c0c4e2aff5fdcc6403'
     
     try:
-        response = requests.post(
-            'https://api.imgbb.com/1/upload',
-            params={'key': IMGBB_API_KEY},
-            files={'image': (file.name, file.read(), file.content_type)},
-            timeout=30
+        s3_client = boto3.client(
+            's3',
+            region_name='us-east-1'
         )
-        data = response.json()
-        if data.get('success'):
-            return JsonResponse({'url': data['data']['url']})
-        return JsonResponse({'error': 'Upload failed'}, status=500)
-    except Exception as e:
+        
+        # Nombre único para la foto
+        extension = file.name.split('.')[-1] if '.' in file.name else 'jpg'
+        key = f"fotos/{uuid.uuid4()}.{extension}"
+        
+        s3_client.upload_fileobj(
+            file,
+            'sanosysalvos-fotos',
+            key,
+            ExtraArgs={'ContentType': file.content_type}
+        )
+        
+        url = f"https://sanosysalvos-fotos.s3.us-east-1.amazonaws.com/{key}"
+        return JsonResponse({'url': url})
+        
+    except ClientError as e:
         return JsonResponse({'error': str(e)}, status=500)
